@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from random_generators import getExponentialRandomGenerator
-from random_generators import TwoLinesRandomGenerator
+from random_generators import getHomeLikeGenerator
 from device import Device
 
 N = 10
@@ -22,7 +22,7 @@ def test_two_lines_random_generator():
     phi_val = 0  # Пример значения phi
 
     # Создаем объект генератора
-    generator = TwoLinesRandomGenerator(k_val, phi_val)
+    generator = getHomeLikeGenerator(mean=10, var=10)
 
     # Проверяем интервалы, на которых генерируются случайные значения
     # print("Interval 1:", (generator.interval_1[0], generator.interval_1[1]))
