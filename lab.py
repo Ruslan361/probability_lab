@@ -25,8 +25,8 @@ def test_two_lines_random_generator():
     generator = TwoLinesRandomGenerator(k_val, phi_val)
 
     # Проверяем интервалы, на которых генерируются случайные значения
-    print("Interval 1:", (generator.interval_1[0], generator.interval_1[1]))
-    print("Interval 2:", (generator.interval_2[0], generator.interval_2[1]))
+    # print("Interval 1:", (generator.interval_1[0], generator.interval_1[1]))
+    # print("Interval 2:", (generator.interval_2[0], generator.interval_2[1]))
 
     # Генерация случайных чисел
     N = 100000  # Количество случайных чисел для генерации

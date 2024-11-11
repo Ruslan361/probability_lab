@@ -7,4 +7,6 @@ class UniformRandomGenerator(RandomGenerator):
         self.a=a
         self.b=b
     def getNext(self, N):
-        return np.random.uniform(self.a, self.b, N)
+        return np.random.uniform(0, 1, N) * (self.b - self.a) + self.a
+    def getNextAB(self, N, a, b):
+        return np.random.uniform(0, 1, N) * (b - a) + a
