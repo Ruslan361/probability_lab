@@ -14,8 +14,6 @@ times = [device.calculateWorkTime() for i in range(N)]
 #print(times)
 sorted(times)
 print(times)
-plt.hist(times, density=True)
-plt.show()
 
 # Функция для проверки генератора
 def test_two_lines_random_generator():
@@ -31,12 +29,14 @@ def test_two_lines_random_generator():
     print("Interval 2:", (generator.interval_2[0], generator.interval_2[1]))
 
     # Генерация случайных чисел
-    N = 1000  # Количество случайных чисел для генерации
+    N = 100000  # Количество случайных чисел для генерации
     random_values = generator.getNext(N)
 
     # Выводим первые 10 случайных значений
     print("First 10 random values:")
     print(random_values[:10])
+    plt.hist(random_values, density=True)
+    plt.show()
 
 
 
