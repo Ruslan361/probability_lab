@@ -11,10 +11,14 @@ class TwoLinesRandomGenerator(RandomGenerator):
         c_val = c.subs(k, k_val)
         subintegral_function_1 = c - 1/k*(x-phi)
         subintegral_function_2 = -c + 1/k*(x-phi)
-        # self.distribution_function_1 = sp.integrate(subintegral_function_1, (x, phi, x))
-        # self.distribution_function_2 = sp.integrate(subintegral_function_2, (x, phi + k*c, x))
-        self.distribution_function_1 = k**3*c**4/(2*(k*c-x))
-        self.distribution_function_2 = 1/2*k*c**2 + k**5*c**3/x
+        
+        # Оставляем функции без интегрирования
+        #self.distribution_function_1 = (k**3*c**4)/(2*(k*c+phi-x)**2)
+        #self.distribution_function_2 = k*c**2/2 + ((k**6*c**4)/(x-k*c-phi)**2)/2
+        self.distribution_function_1 = sp.integrate(subintegral_function_1, (x, phi, x))
+        self.distribution_function_2 = sp.integrate(subintegral_function_1, (x, k*c+phi, x))
+
+        # Заменяем переменные в формулах
         self.distribution_function_1 = self.distribution_function_1.subs(k, k_val).subs(phi, phi_val)
         self.distribution_function_2 = self.distribution_function_2.subs(k, k_val).subs(phi, phi_val)
 
@@ -30,11 +34,11 @@ class TwoLinesRandomGenerator(RandomGenerator):
         self.interval_2 = find_extrema_on_interval(self.distribution_function_2, x, (k_val*c_val+phi_val, phi_val + k_val*c_val*(1+k_val)))
         self.interval_2 = (self.interval_2['min'][1], self.interval_2['max'][1])
 
-        # Проверяем корректность интервалов
-        if (self.interval_1[0] < self.interval_2[0] and self.interval_2[0] < self.interval_1[1]):
-            raise ValueError("unexpected distribution function")
-        if (self.interval_2[0] < self.interval_1[0] and self.interval_1[0] < self.interval_2[1]):
-            raise ValueError("unexpected distribution function")
+        # # Проверяем корректность интервалов
+        # if (self.interval_1[0] < self.interval_2[0] and self.interval_2[0] < self.interval_1[1]):
+        #     raise ValueError("unexpected distribution function")
+        # if (self.interval_2[0] < self.interval_1[0] and self.interval_1[0] < self.interval_2[1]):
+        #     raise ValueError("unexpected distribution function")
         
     def getNext(self, N):
         y = self.uniform.getNext(N)
@@ -62,6 +66,7 @@ class TwoLinesRandomGenerator(RandomGenerator):
             return random_values
         raise Exception("Empty random")
 
+#from sympy.calculus.util import  is_real
 
 def find_extrema_on_interval(f, var, interval):
     """
@@ -72,6 +77,7 @@ def find_extrema_on_interval(f, var, interval):
     :param interval: Кортеж (a, b), определяющий отрезок [a, b].
     :return: Словарь с минимумом и максимумом на отрезке.
     """
+    #from sympy.intervals import Interval
     a, b = interval
     interval_set = sp.Interval(a, b)
     
@@ -95,21 +101,14 @@ def find_extrema_on_interval(f, var, interval):
         values.append((point, value))
     
     # Определяем максимум и минимум символически, если не удалось вычислить численно
-    min_value = 0
-    max_value = 1
+    min_value = float('inf')
+    max_value = float('-inf')
     min_point = max_point = None
 
     for point, value in values:
-        # Пытаемся определить значение численно
-        # try:
-        #     numeric_value = sp.N(value)
-        #     if numeric_value < min_value:
-        #         min_value, min_point = numeric_value, point
-        #     if numeric_value > max_value:
-        #         max_value, max_point = numeric_value, point
-        # except TypeError:
+        # Проверяем, является ли значение действительным числом
         if value.is_real:
-            # Если не удается, работаем с символьными значениями
+            # Определяем максимум и минимум
             if value < min_value:
                 min_value, min_point = value, point
             if value > max_value:
@@ -119,5 +118,3 @@ def find_extrema_on_interval(f, var, interval):
         "min": (min_point, min_value),
         "max": (max_point, max_value)
     }
-
-
