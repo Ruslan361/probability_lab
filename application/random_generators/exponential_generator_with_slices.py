@@ -12,3 +12,7 @@ class ExponentialRandomGeneratorWithShift(RandomGenerator):
     def getNext(self, N):
         y = self.uniform.getNext(N)
         return np.log(y)/(-self.lmbd) + self.shift
+    def getVar(self):
+        return 1/(self.lmbd**2)
+    def getMean(self):
+        return self.phi + 1 / self.lmbd
