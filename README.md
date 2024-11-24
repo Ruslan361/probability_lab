@@ -48,3 +48,64 @@ $\sigma^2[X] = M[X^2] - (M[X])^2 = \frac{2}{\lambda^2} + \frac{2\theta}{\lambda}
 * Матожидание экспоненциального распределения со сдвигом: $M[X] = \theta + \frac{1}{\lambda}$
 * Дисперсия экспоненциального распределения со сдвигом: $\sigma^2[X] = \frac{1}{\lambda^2}$
 * Квантильная функция (обратная функция распределения): $F^{-1}(p) = \theta - \frac{ln(1 - p)}{\lambda}, \quad 0 \le p < 1$
+
+
+## Треугольное распределение
+### Функции плотности вероятности:
+
+
+$$f(x) = \begin{cases}
+b + k \left(- \phi + x\right), & x \in [\phi - \frac{b}{k}, \phi]\\
+ b - k \left(- \phi + x\right), & x \in (\phi, \phi + \frac{b}{k}]
+\\
+0, & x \notin [\phi - \frac{b}{k}, \phi + \frac{b}{k}]
+\end{cases}$$
+
+
+
+### Проверка условий нормировки:
+ Чтобы выполнялись условия нормировки необходимо, чтобы
+ $b = \sqrt{k}$
+
+ Таким образом, 
+ $$f(x) = \begin{cases}
+\sqrt{k} - k \left(\phi - x\right), & x \in [\phi - \frac{1}{\sqrt{k}}, \phi]\\
+ \sqrt{k} + k \left(\phi - x\right), & x \in \left(\phi, \phi + \frac{1}{\sqrt{k}}\right]
+\\
+0, & x \notin \left[\phi - \frac{b}{k}, \phi + \frac{b}{k}\right]
+\end{cases}$$
+
+
+### Функция распределения:
+
+ $$F(x) = \begin{cases}
+ 0, & x \in (-\infty,  \phi - \frac{1}{\sqrt{k}})
+ \\
+\frac{\phi^{2} k}{2} - \phi \sqrt{k} - \phi k x + \sqrt{k} x + \frac{k x^{2}}{2} + \frac{1}{2}, & x \in [\phi - \frac{1}{\sqrt{k}}, \phi]\\
+ -\frac{\phi^{2} k}{2} - \phi \sqrt{k} + \phi k x + \sqrt{k} x - \frac{k x^{2}}{2} + \frac{1}{2}, & x \in (\phi, \phi + \frac{1}{\sqrt{k}}]
+\\
+1, & x \in (\phi + \frac{b}{k},  +\infty)
+\end{cases}$$
+
+
+### Математическое ожидание:
+
+ $M(X) = \phi$
+
+### Дисперсия:
+
+ $D(X) = \frac{1}{6 k}$
+
+### Обратная функция:
+
+При $0 < y \le \frac{1}{2}$
+
+$x = \frac{\phi\sqrt{k} - \sqrt{2y} - 1}{\sqrt{k}}$ или
+$x = \frac{\phi\sqrt{k} + \sqrt{2y} - 1}{\sqrt{k}}$ и
+$x \in [\phi - \frac{1}{\sqrt{k}}, \phi]$ 
+При $\frac{1}{2} < F(x) \le 1$
+$x = \frac{\phi k + \sqrt{k} - \sqrt{2k(1-y)}}{k}$ или
+$x = \frac{\phi k + \sqrt{k} + \sqrt{2k(1-y)}}{k}$ и
+$x \in \left(\phi, \phi + \frac{1}{\sqrt{k}}\right]$
+
+
