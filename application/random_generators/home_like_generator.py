@@ -39,6 +39,11 @@ class HomeLikeRandomGenerator(RandomGenerator):
             if self.isInSecondIntervalOfProbabilityDensity(x2):
                 return x2
             
+    def getVar(self):
+        return 1/(6*self.k)
+    def getMean(self):
+        return self.phi
+            
 
 
     def isInFirstIntervalOfDistributionFunction(self, y):

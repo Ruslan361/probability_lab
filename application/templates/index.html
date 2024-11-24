@@ -17,7 +17,7 @@
                     {% if value is number %}
                         {{ '{:.2f}'.format(value) }}
                     {% else %}
-                        {{ value }}  <!-- Или какое-то другое значение по умолчанию -->
+                        {{ value }}  
                     {% endif %}
                 </td>
                 {% endfor %}
@@ -30,5 +30,32 @@
 {% block graph %}
     {% if plot_url %}
         <img src="data:image/svg+xml;base64,{{ plot_url }}">
+    {% endif %}
+{% endblock %}
+
+{% block characteristic_of_numerical_distributions %}
+    {% if characteristics or labels %}
+        <table>
+            <thead>
+                <tr>
+                    {% for label in labels %}
+                        <th>\( {{label}} \)</th>            
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for value in characteristics %}
+                    <td>
+                        {% if value is number %}
+                            {{ '{:.5f}'.format(value) }}
+                        {% else %}
+                            {{ value }}  
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
     {% endif %}
 {% endblock %}

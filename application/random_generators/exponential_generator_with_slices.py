@@ -15,4 +15,4 @@ class ExponentialRandomGeneratorWithShift(RandomGenerator):
     def getVar(self):
         return 1/(self.lmbd**2)
     def getMean(self):
-        return self.phi + 1 / self.lmbd
+        return self.shift + 1 / self.lmbd
