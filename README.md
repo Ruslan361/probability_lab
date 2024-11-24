@@ -68,7 +68,8 @@ b + k \left(- \phi + x\right), & x \in [\phi - \frac{b}{k}, \phi]\\
  $b = \sqrt{k}$
 
  Таким образом, 
- $$f(x) = \begin{cases}
+
+$$f(x) = \begin{cases}
 \sqrt{k} - k \left(\phi - x\right), & x \in [\phi - \frac{1}{\sqrt{k}}, \phi]\\
  \sqrt{k} + k \left(\phi - x\right), & x \in \left(\phi, \phi + \frac{1}{\sqrt{k}}\right]
 \\
@@ -101,11 +102,16 @@ b + k \left(- \phi + x\right), & x \in [\phi - \frac{b}{k}, \phi]\\
 При $0 < y \le \frac{1}{2}$
 
 $x = \frac{\phi\sqrt{k} - \sqrt{2y} - 1}{\sqrt{k}}$ или
+
 $x = \frac{\phi\sqrt{k} + \sqrt{2y} - 1}{\sqrt{k}}$ и
+
 $x \in [\phi - \frac{1}{\sqrt{k}}, \phi]$ 
 При $\frac{1}{2} < F(x) \le 1$
+
 $x = \frac{\phi k + \sqrt{k} - \sqrt{2k(1-y)}}{k}$ или
+
 $x = \frac{\phi k + \sqrt{k} + \sqrt{2k(1-y)}}{k}$ и
+
 $x \in \left(\phi, \phi + \frac{1}{\sqrt{k}}\right]$
 
 
