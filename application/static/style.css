@@ -1,0 +1,95 @@
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  h1 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  #error-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid red;
+    background-color: #fff0f0;
+  }
+  
+  #results {
+    margin-top: 20px;
+  }
+  
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.9em;
+    }
+    label {
+      display: inline-block;
+      width: 100%;
+    }
+  
+    input[type="number"], select {
+      width: calc(100% - 22px); /* Adjust for padding */
+    }
+  }
+  #results {
+    margin-top: 20px;
+    overflow-x: auto; /* Add this line */
+  }

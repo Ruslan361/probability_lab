@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from random_generators import getExponentialRandomGenerator
 from random_generators import getHomeLikeGenerator
-from device import Device
+from application.device import Device
 
 N = 10
 amountOfSubdevices = 1

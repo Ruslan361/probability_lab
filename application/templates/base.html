@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Моделирование эксперимента</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Введите параметры эксперимента</h1>
+    {% if error %}
+    <div id="error-message" style="color: red;">{{  error }}</div>
+    {% endif %}
+
+    <form id="experiment-form" method="POST">
+        <table>
+            <tr>
+                <td><label for="q">Среднее Q:</label></td>
+                <td><input type="number" name="q" id="q" value="{{ q if q is not none else '0' }}" required></td>
+            </tr>
+            <tr>
+                <td><label for="r">Дисперсия R:</label></td>
+                <td><input type="number" step="any" name="r" id="r" value="{{ r if r is not none else '1' }}" required></td>
+            </tr>
+            <tr>
+                <td><label for="n">Количество приборов N:</label></td>
+                <td><input type="number" name="n" id="n" value="{{ n if n is not none else '5' }}" required></td>
+            </tr>
+            <tr>
+                <td><label for="num_trials">Количество испытаний:</label></td>
+                <td><input type="number" name="num_trials" id="num_trials" value="{{ num_trials if num_trials is not none else '100' }}" required></td>
+            </tr>
+            <tr>
+                <td><label for="distributing_function">Функция распределения:</label></td>
+                <td>
+                    <select name="distributing_function" id="distributing_function" value="{{ distributing_function if distributing_function is not none else 'exponential' }}">
+                        <option value="exponential" {% if distributing_function == "exponential" %}selected{% endif %}> Экспоненциальный</option>
+                        <option value="home-like" {% if distributing_function == "home-like" %}selected{% endif %}> Две прямые</option>
+                      </select>
+                </td>
+            </tr>
+        </table>
+        <button type="submit">Запустить моделирование</button>
+
+    </form>
+
+    <div id="results">
+        {% block results %}{% endblock %}
+    </div>
+    <div id="graph">
+        {% block graph %}{% endblock %}
+    </div>
+
+
+</body>
+</html>
