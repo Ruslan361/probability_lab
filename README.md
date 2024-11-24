@@ -4,7 +4,10 @@
 
 Экспоненциальное распределение со сдвигом определяется плотностью вероятности:
 
-$f(x) = \begin{cases} \lambda e^{-\lambda(x - \theta)}, & x \ge \theta \\ 0, & x < \theta \end{cases}$
+$f(x) = \begin{cases}
+\lambda e^{-\lambda(x - \theta)}, & x \ge \theta\\
+0, & x < \theta
+\end{cases}$
 
 где $\lambda > 0$ — параметр скорости (rate parameter), а $\theta$ — параметр сдвига.
 
