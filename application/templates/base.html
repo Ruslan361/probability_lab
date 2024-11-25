@@ -16,7 +16,7 @@
         <table>
             <tr>
                 <td><label for="q">Среднее Q:</label></td>
-                <td><input type="number" name="q" id="q" value="{{ q if q is not none else '0' }}" required></td>
+                <td><input type="number" name="q" id="q" value="{{ q if q is not none else '0' }}" step="any" required></td>
             </tr>
             <tr>
                 <td><label for="r">Дисперсия R:</label></td>
@@ -34,8 +34,8 @@
                 <td><label for="distributing_function">Функция распределения:</label></td>
                 <td>
                     <select name="distributing_function" id="distributing_function" value="{{ distributing_function if distributing_function is not none else 'exponential' }}">
-                        <option value="exponential" {% if distributing_function == "exponential" %}selected{% endif %}> Экспоненциальный</option>
-                        <option value="home-like" {% if distributing_function == "home-like" %}selected{% endif %}> Две прямые</option>
+                        <option value="exponential" {% if distributing_function == "exponential" %}selected{% endif %}> Экспоненциальная</option>
+                        <option value="home-like" {% if distributing_function == "home-like" %}selected{% endif %}> Треугольная</option>
                       </select>
                 </td>
             </tr>

@@ -5,4 +5,5 @@ class RandomGenerator:
         pass
     def getMean(self):
         pass
-     
+    def isPositive(self):
+        pass

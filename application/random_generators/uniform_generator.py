@@ -14,3 +14,5 @@ class UniformRandomGenerator(RandomGenerator):
         return (self.b - self.a)**2 / 12
     def getMean(self):
         return (self.b + self.a) / 2
+    def isPositive(self):
+        return self.a >= 0

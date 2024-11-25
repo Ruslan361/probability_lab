@@ -43,6 +43,9 @@ class HomeLikeRandomGenerator(RandomGenerator):
         return 1/(6*self.k)
     def getMean(self):
         return self.phi
+    
+    def isPositive(self):
+        return self.phi - 1/(np.sqrt(self.k)) >= 0
             
 
 

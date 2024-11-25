@@ -14,3 +14,5 @@ class ExponentialRandomGenerator(RandomGenerator):
         return 1/(self.lmbd**2)
     def getMean(self):
         return 1 / self.lmbd
+    def isPositive(self):
+        return True

@@ -55,7 +55,7 @@ $\sigma^2[X] = M[X^2] - (M[X])^2 = \frac{2}{\lambda^2} + \frac{2\theta}{\lambda}
 
 ## Треугольное распределение
 ### Функции плотности вероятности:
-
+Подробный вывод формул в [ноутбуке](calculate_var_and_mean_homelike_generator.ipynb)
 
 $$f(x) = \begin{cases}
 b + k \left(- \phi + x\right), & x \in [\phi - \frac{b}{k}, \phi]\\
@@ -128,3 +128,26 @@ $D(\eta) = \sum_{i=1}^N D(\xi_i) = N * D(\xi_1)$
 Как найти F аналитически не ясно
 
 Распределение суммы случайных величин с экспоненциальным рапределением называется распределением Эрланга 
+
+### Установка
+Для установки необходимо уствновить [anaconda](https://www.anaconda.com/download), [git](https://git-scm.com/)
+
+```bash
+git clone https://github.com/Ruslan361/probability_lab.git
+conda env create -f environment.yml
+conda activate flask
+```
+### Запуск
+```bash
+cd path\to\folder
+cd application
+python app.py
+```
+Открыть в браузере ```http://127.0.0.1:5000```
+### Статус
+* Сдан 1 пункт
+### TODO
+* Нарисовать график функции распределения. Теоретическая функция распределения - нормальное распределение. По центральной предельной теореме 
+* Доделать 2 пункт
+* Сделать 3 пункт
+* Исправить ошибку в начале программы
