@@ -15,6 +15,53 @@ matplotlib.use('Agg')  # Устанавливаем Agg backend *ПЕРЕД* и�
 
 app = Flask(__name__)
 
+@app.route('/interval', methods=['POST'])
+def intervals():
+    # try:
+        # Получаем данные
+        intervals = request.form.get("intervals")
+        work_times = request.form.get("workTimes")
+        mean = float(request.form.get("mean"))
+        disp = float(request.form.get("disp"))
+        print(disp)
+
+        # Преобразуем строку JSON в объекты Python
+        intervals = np.array(eval(intervals))
+        work_times = np.array(eval(work_times))
+
+        if len(intervals) < 2:
+            raise ValueError("Интервалы должны содержать хотя бы два значения.")
+
+        hist_values, bin_centers = compute_histogram_with_intervals_manual(work_times, intervals, density=True)
+        pdf_real = st.norm.pdf(bin_centers, mean, np.sqrt(disp))
+        #print(pdf_real)
+        max_sub = np.max(np.abs(pdf_real - hist_values))
+        # Вычисление гистограммы
+        #hist_values, _ = np.histogram(work_times, bins=intervals)
+        #bin_centers = [(intervals[i] + intervals[i + 1]) / 2 for i in range(len(intervals) - 1)]
+        plt.figure()
+        #plt.hist(workTimes, density=density, cumulative=cumulative, bins=bins, alpha=0.7, label='Время работы')
+
+        plt.xlabel('$t$')
+        #plt.ylabel('Относительная частота')
+        plt.title('Гистограмма относительных частот')
+        #plt.legend()
+        plt.bar(bin_centers, hist_values, width=np.diff(intervals), align='center', alpha=0.7, edgecolor='black')
+        img = io.BytesIO()
+        plt.savefig(img, format='svg')
+        img.seek(0)
+        plot_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        # Возвращаем данные
+        return jsonify({
+            "pdf_select": hist_values.tolist(),
+            "pdf_real": pdf_real.tolist(),
+            "bin_centers": list(bin_centers),
+            "max_sub": max_sub,
+            "graph_url":  plot_url})
+    # except Exception as e:
+    #     return jsonify({"error": str(e)}), 500
+
 def process_form():
     q = None
     r = None
@@ -62,30 +109,35 @@ def compute_histogram_with_intervals_manual(data, bin_edges, density=False, cumu
     
     # Преобразуем data в numpy-массив для более быстрого вычисления
     data = np.array(data)
-    
-    # Инициализируем массив для значений гистограммы
+    #hist_values, _ = plt.hist(data, bins='auto', cumulative=True, density=True)
+
+    #Инициализируем массив для значений гистограммы
     hist_values = np.zeros(len(bin_edges) - 1)
     
     # Цикл по каждому элементу данных
     for value in data:
         # Для каждого значения находим, в какой интервал оно попадает
         for i in range(len(bin_edges) - 1):
-            if bin_edges[i] <= value < bin_edges[i + 1]:
+            if bin_edges[i] <= value and value < bin_edges[i + 1]:
                 hist_values[i] += 1
                 break
     
 
     
-    # Если нужно накопительное распределение (cumulative=True)
+    #Если нужно накопительное распределение (cumulative=True)
     if cumulative:
         hist_values = np.cumsum(hist_values)
 
     # Нормализация по желанию (density=True)
-    if density:
+    if density and cumulative:
         total_count = data.shape[0]
         bin_widths = np.diff(bin_edges)
         # hist_values = hist_values / (total_count * bin_widths)
         hist_values = hist_values / total_count
+    if density and not cumulative:
+        total_count = data.shape[0]
+        bin_widths = np.diff(bin_edges)
+        hist_values = hist_values / (total_count * bin_widths)
     
     # Вычисляем середины интервалов
     bin_centers = [(bin_edges[i] + bin_edges[i + 1]) / 2 for i in range(len(bin_edges) - 1)]
@@ -116,18 +168,24 @@ def generate_cdf_plot(workTimes, mean, disp, bin_edges):
         #count = max(count, 1)
         if workTimes.shape[0] > 100:
             count = 100
+        count = max(count, 1)
         #count = 100
         #
-        bin_edges = np.linspace(x_min, x_max, count)
+        bin_edges = np.linspace(x_min, x_max, count + 1)
         
     #
+    print(bin_edges)
+    print(workTimes)
     hist_values, bin_centers = compute_histogram_with_intervals_manual(workTimes, bin_edges, density=True, cumulative=True)
-
+    print(hist_values, bin_centers)
     #
     plt.figure()
     #plt.hist(workTimes, density=density, cumulative=cumulative, bins=bins, alpha=0.7, label='Время работы')
     plt.plot(x, cdf, label=r"$F_\eta(x)$")
-    plt.plot(bin_centers, hist_values, label=r"$\hat{F_\eta(x)}$")
+    if (len(bin_edges) < 10):
+        plt.plot(bin_centers, hist_values, "-o", label=r"$\hat{F_\eta(x)}$")
+    else:
+        plt.plot(bin_centers, hist_values, label=r"$\hat{F_\eta(x)}$")
     Fn = st.norm.cdf(bin_centers, mean, np.sqrt(disp))
     D = np.max(np.abs(hist_values - Fn))
     plt.xlabel('$t$')
@@ -145,14 +203,14 @@ def generate_cdf_plot(workTimes, mean, disp, bin_edges):
 
 @app.route("/cdf-plot", methods=["POST"])
 def plot():
-    """
-    Генерация гистограммы по заданным интервалам.
-    Ожидает JSON с ключами:
-    - workTimes: массив значений
-    - bins: количество интервалов
-    """
+        """
+        Генерация гистограммы по заданным интервалам.
+        Ожидает JSON с ключами:
+        - workTimes: массив значений
+        - bins: количество интервалов
+        """
     #
-    try:
+    #try:
         # Извлечение данных из запроса
         data = request.get_json()
         
@@ -171,7 +229,7 @@ def plot():
         # Формируем успешный ответ
         return jsonify({"plot_url": plot_url, "error": ""}), 200
 
-    except Exception as e:
+    #except Exception as e:
         
         return jsonify({"error": str(e)}), 400
 

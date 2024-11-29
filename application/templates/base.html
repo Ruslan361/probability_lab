@@ -58,8 +58,19 @@
         {% block characteristic_of_numerical_distributions %}{% endblock %}
     </div>
     <div id="cdf">
-        
+
     </div>
+    <form id="interval-form">
+        <label for="intervals">Границы интервалов (через запятую, например: 0, 1, 2, 3):</label>
+        <input type="text" id="intervals" name="intervals" required placeholder="0, 1, 2, 3, ...">
+        <br><br>
+        <button type="submit">Отправить</button>
+    </form>
+    <div id="results2">
+        <h3>Результаты</h3>
+        <table id="results-table"></table>
+    </div>
+    <div id="hist"></div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
