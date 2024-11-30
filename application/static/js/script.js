@@ -48,8 +48,8 @@ form.onsubmit = (event) => {
     });
 };
 
-function displayResults(data) {
-    const resultsContainer = document.getElementById("results");
+function displayResults(data, id="results") {
+    const resultsContainer = document.getElementById(id);
     resultsContainer.innerHTML = ""; // Очистить старые результаты
 
     if (!data || !data.length) {
@@ -218,8 +218,8 @@ function requestCDF(workTimes, mean, disp) {
     }
 }
 
-function displayResults2(z, pdf_real, pdf_select, min, plotUrl) {
-    const resultsContainer = document.getElementById("results-table");
+function displayResults2(z, pdf_real, pdf_select, min, plotUrl, result_label="\\( \\max_{j=1, \\dots, k} \\left| \\frac{n_j}{n \\lvert \\Delta'_j \\rvert} - f_\\eta(z_j) \\right|= \\) ", resultsContainerId="results-table", plotId="hist") {
+    const resultsContainer = document.getElementById(resultsContainerId);
     resultsContainer.innerHTML = ""; // Очистить старые результаты
 
     if (!z || !z.length || !pdf_real || !pdf_real.length || !pdf_select.length || !pdf_select) {
@@ -246,8 +246,8 @@ function displayResults2(z, pdf_real, pdf_select, min, plotUrl) {
     table.appendChild(tbody);
     resultsContainer.appendChild(table);
 
-    p = document.createElement("p")
-    p.textContent = "\\( \\max_{j=1, \\dots, k} \\left| \\frac{n_j}{n \\lvert \\Delta'_j \\rvert} - f_\\eta(z_j) \\right|= \\) " + String(min)
+    p = document.createElement("p");
+    p.textContent = result_label + String(min);
     resultsContainer.appendChild(p);
     function create_row(z) {
         const row = document.createElement("tr");
@@ -258,12 +258,13 @@ function displayResults2(z, pdf_real, pdf_select, min, plotUrl) {
         });
         return row;
     }
-    displayPlot(plotUrl, "hist");
+    displayPlot(plotUrl, plotId);
 
     if (window.MathJax) {
         MathJax.typeset();
     }
 }
+
 
 
 document.getElementById("interval-form").addEventListener("submit", function (event) {
@@ -305,6 +306,95 @@ document.getElementById("interval-form").addEventListener("submit", function (ev
             } else {
                 //z, pdf_real, pdf_select
                 displayResults2(data.bin_centers, data.pdf_real, data.pdf_select, data.max_sub, data.graph_url);
+                clearError(); // Убираем старые ошибки
+            }
+
+            if (data.warning) {
+                displayWarning(data.warning);
+            } else {
+                clearWarning(); // Убираем старые предупреждения
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+});
+
+function createContext(){
+    let formData = new FormData();
+    formData.append("workTimes", JSON.stringify(workTimes));
+    formData.append("mean", JSON.stringify(mean));
+    formData.append("disp", JSON.stringify(disp));
+    return formData
+}
+
+function splitIntervals(string){
+
+    // Преобразуем строку в массив чисел
+    const intervals = string.split(',').map(item => parseFloat(item.trim()));
+    return intervals;
+}
+
+function showFAndHyp(F, message, id){
+
+}
+
+document.getElementById("interval-form-2").addEventListener("submit", function (event) {
+    event.preventDefault(); // Останавливаем обычную отправку формы
+
+    // Получаем введенные интервалы как строку
+    const intervalsStr = document.getElementById("intervals2").value;
+
+    // Преобразуем строку в массив чисел
+    const intervals = splitIntervals(intervalsStr);
+    console.log(intervals);
+    const a = parseFloat(document.getElementById("a").value);
+
+    // Проверяем, чтобы интервалы были числами и их было больше 1
+    if (intervals.length < 1 || intervals.some(isNaN)) {
+        displayError("Неверный формат интервалов. Пожалуйста, введите числа.");
+        return;
+    }
+
+    // Генерация данных для работы (пример)
+    //const workTimes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10]; // Пример данных
+    //const min = Math.min(workTimes);
+    //const max = Math.max(workTimes);
+
+    // Отправка данных на сервер для получения результатов
+    if (isvalid) {
+        formData = createContext();
+        formData.append("intervals", JSON.stringify(intervals));
+        formData.append("a", JSON.stringify(a));
+        console.log(formData);
+
+        fetch("/intervals2", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                displayError(data.error);
+            } else {
+                //z, pdf_real, pdf_select
+                displayResults(data.q, "res-table");
+                const resultsContainer = document.getElementById("res-text");
+                resultsContainer.innerHTML = "";
+                p = document.createElement("p");
+                p.textContent = "\\( R_0 = \\)" + String(data.R0);
+                resultsContainer.appendChild(p);
+                p = document.createElement("p");
+                p.textContent = "\\( \\overline{F}(R_0) = \\)" + String(data.F) + "\n";
+                resultsContainer.appendChild(p);
+                p = document.createElement("p");
+                p.textContent = data.message;
+                resultsContainer.appendChild(p);
+
+                if (window.MathJax) {
+                    MathJax.typeset();
+                }
                 clearError(); // Убираем старые ошибки
             }
 
