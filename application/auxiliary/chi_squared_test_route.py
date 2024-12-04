@@ -12,6 +12,14 @@ def calculate_expected_frequencies(intervals, mean, variance, total_count):
         expected_frequencies.append(prob * total_count)
     return np.array(expected_frequencies)
 
+def calculate_chi2_statistic(observed_frequencies, expected_frequencies):
+    """Calculates the chi-squared statistic."""
+    if len(observed_frequencies) != len(expected_frequencies):
+        raise ValueError("Observed and expected frequencies must have the same length.")
+    if np.any(expected_frequencies <= 0):  # Check for zero or negative expected frequencies
+        raise ValueError("Expected frequencies must be positive.")
+
+    return np.sum((observed_frequencies - expected_frequencies)**2 / expected_frequencies)
 
 
 def chi_squared_test_route():
@@ -39,25 +47,7 @@ def chi_squared_test_route():
             return jsonify({"error": f"Invalid input data: {e}"}), 400 # Bad Request
 
 
-        stdev = np.sqrt(variance)
-        ppf = np.linspace(0, 1, num_intervals + 1)
-        intervals = st.norm.ppf(ppf, mean, stdev)  # Use ppf to define intervals
-
-        hist_values, _ = compute_histogram(work_times, intervals)
-        k = len(hist_values)  # Degrees of freedom
-        
-        expected_frequencies = calculate_expected_frequencies(intervals, mean, variance, np.sum(hist_values))
-        print(expected_frequencies)
-        print(hist_values)
-        chi2_statistic = np.sum((hist_values - expected_frequencies)**2 / expected_frequencies)
-        p_value = 1 - st.chi2.cdf(chi2_statistic, k - 1) # k-1 degrees of freedom
-        print(chi2_statistic)
-        hypothesis_rejected = p_value <= alpha
-        print(hypothesis_rejected)
-        if hypothesis_rejected:
-            message = "Гипотеза отклонена"
-        else:
-            message = "Гипотеза не отклонена"
+        expected_frequencies, chi2_statistic, p_value, message = chi_squared_test(num_intervals, work_times, mean, variance, alpha)
         print(message)
         #message = "Гипотеза отклонена" if hypothesis_rejected else "Гипотеза не отклонена"
         return jsonify({
@@ -69,4 +59,26 @@ def chi_squared_test_route():
 
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500  # Internal Server Error, consider logging exception
+        return jsonify({"error": str(e)}), 500 
+
+def chi_squared_test(num_intervals, work_times, mean, variance, alpha):
+    stdev = np.sqrt(variance)
+    ppf = np.linspace(0, 1, num_intervals + 1)
+    intervals = st.norm.ppf(ppf, mean, stdev)  # Use ppf to define intervals
+
+    hist_values, _ = compute_histogram(work_times, intervals)
+    k = len(hist_values)  # Degrees of freedom
+        
+    expected_frequencies = calculate_expected_frequencies(intervals, mean, variance, np.sum(hist_values))
+    print(expected_frequencies)
+    print(hist_values)
+    chi2_statistic = np.sum((hist_values - expected_frequencies)**2 / expected_frequencies)
+    p_value = 1 - st.chi2.cdf(chi2_statistic, k - 1) # k-1 degrees of freedom
+    print(chi2_statistic)
+    hypothesis_rejected = p_value <= alpha
+    print(hypothesis_rejected)
+    if hypothesis_rejected:
+        message = "Гипотеза отклонена"
+    else:
+        message = "Гипотеза не отклонена"
+    return expected_frequencies,chi2_statistic,p_value,message # Internal Server Error, consider logging exception

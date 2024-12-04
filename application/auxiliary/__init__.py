@@ -2,7 +2,7 @@ from .generate_cdf_plot_route import generate_cdf_plot_route
 from .index import index
 from .generate_histogram_route import generate_histogram_route
 from .submit_data import submit_data
-from .chi_squared_test_route import chi_squared_test_route
+from .chi_squared_test_route import chi_squared_test_route, chi_squared_test
 
 def setup_routes(app):
     @app.route("/cdf-plot", methods=["POST"])
