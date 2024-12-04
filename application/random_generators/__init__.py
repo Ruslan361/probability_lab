@@ -1,7 +1,7 @@
 import numpy as np
 from .exponential_generator import ExponentialRandomGenerator
 from .exponential_generator_with_slices import ExponentialRandomGeneratorWithShift
-from .home_like_generator import HomeLikeRandomGenerator
+from .triangle_generator import TriangleRandomGenerator
 
 def getExponentialRandomGeneratorFromQ(Q):
     return ExponentialRandomGenerator(1/Q)
@@ -14,7 +14,7 @@ def calculateLambdaAndPhiForExponentialRandomGeneratorWithShift(mean, var):
     phi = mean - 1/lmbd
     return lmbd, phi
 
-def getExponentialRandomGenerator(**kwargs):
+def get_exponential_generator(**kwargs):
     if len(kwargs) == 1:
         if 'Q' in kwargs:
             return ExponentialRandomGenerator(1/kwargs['Q'])
@@ -40,14 +40,14 @@ def getExponentialRandomGenerator(**kwargs):
     raise ValueError(f"too many values {kwargs}")
         
 
-def getHomeLikeGenerator(**kwargs):
+def get_home_like_generator(**kwargs):
     if len(kwargs) == 2:
         if 'mean' in kwargs and 'var' in kwargs:
-            return HomeLikeRandomGenerator(1/(6*kwargs['var']), kwargs['mean'])
+            return TriangleRandomGenerator(1/(6*kwargs['var']), kwargs['mean'])
         if 'Q' in kwargs and 'R' in kwargs:
-            return HomeLikeRandomGenerator(1/(6*kwargs['R']), kwargs['Q'])
+            return TriangleRandomGenerator(1/(6*kwargs['R']), kwargs['Q'])
         if 'k' in kwargs and 'phi' in kwargs:
-            return HomeLikeRandomGenerator(kwargs['k'], kwargs['phi'])
+            return TriangleRandomGenerator(kwargs['k'], kwargs['phi'])
         raise ValueError(f"unexpected values {kwargs}")
     raise ValueError(f"too many or too less values {kwargs}")
 

@@ -1,9 +1,9 @@
 class RandomGenerator:
-    def getNext(self, N: int):
+    def get_next(self, N: int):
         pass
-    def getVar(self):
+    def get_variance(self):
         pass
-    def getMean(self):
+    def get_mean(self):
         pass
-    def isPositive(self):
+    def is_positive(self):
         pass

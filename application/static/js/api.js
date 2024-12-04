@@ -22,11 +22,13 @@ async function fetchData(url, data) {
 
         if (result.error) {
             ui.displayMessage(result.error, "error-container", "error"); // Предполагается, что displayMessage определена в другом модуле
+            ui.removeElement("error-container")
             return { error: result.error }; // Возвращаем ошибку для обработки в вызывающей функции
         }
 
         if (result.warning) {
             ui.displayMessage(result.warning, "warning-container", "warning"); // Аналогично для предупреждений
+            ui.removeElement("warning-container")
         }
 
         return result; // Возвращаем данные без ошибок
@@ -34,6 +36,7 @@ async function fetchData(url, data) {
     } catch (error) {
         console.error("Error:", error);
         ui.displayMessage("Ошибка при обращении к серверу.", "error-container", "error"); // Общее сообщение об ошибке
+        ui.removeElement("error-container")
         return { error: "Ошибка при обращении к серверу." }; // Возвращаем ошибку
     }
 }

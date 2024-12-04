@@ -5,13 +5,29 @@ body {
     background-color: #f4f4f4;
     color: #333;
   }
-  
+  /* #results-table {
+    display: inline-block;
+  } */
   h1 {
     color: #333;
     margin-bottom: 20px;
   }
-  
+  #res-table {  /* Use a class for reusability */
+    overflow-x: auto;
+    margin-top: 20px;
+}
+#characteristic-of-numerical-distributions{
+  overflow-x: auto;
+  margin-top: 20px;
+}
+#results2 {  /* Use a class for reusability */
+  overflow-x: auto;
+  margin-top: 20px;
+}
   table {
+    /* display: inline-block; */
+    overflow-x: auto;
+    margin-top: 20px;
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
@@ -109,4 +125,3 @@ body {
     margin-top: 20px;
     overflow-x: auto; /* Add this line */
   }
-

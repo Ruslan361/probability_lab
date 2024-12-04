@@ -77,6 +77,14 @@ export function displayPlot(plotUrl, containerId) {
     container.appendChild(img);
 }
 
+export function removeElement(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      setTimeout(() => {
+        element.remove(); // Or element.style.display = 'none'; to just hide it
+      }, 10000); // 10000 milliseconds = 10 seconds
+    }
+  }
 
 export function displayResults2(z, pdfReal, pdfSelect, min, plotUrl, resultsContainerId = "results-table", plotContainerId = "hist") {
     const resultsContainer = document.getElementById(resultsContainerId);

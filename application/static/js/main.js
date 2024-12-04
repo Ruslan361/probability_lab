@@ -45,10 +45,10 @@ document.getElementById("interval-form").addEventListener("submit", async (event
     if (isValid) {
         const data = await api.getIntervalData(numIntervals, workTimes, mean, disp);
         if (data && !data.error) {
-            ui.displayResults2(data.bin_centers, data.pdf_real, data.pdf_select, data.max_sub, data.graph_url);
+            ui.displayResults2(data.bin_centers, data.theoretical_pdf, data.empirical_pdf, data.max_difference, data.graph_url);
         }
     }
-});
+}); 
 
 
 

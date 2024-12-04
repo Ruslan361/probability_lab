@@ -7,12 +7,12 @@ class ExponentialRandomGenerator(RandomGenerator):
     def __init__(self, lmbd):
         self.lmbd= lmbd
         self.uniform = UniformRandomGenerator()
-    def getNext(self, N):
-            y = self.uniform.getNext(N)
+    def get_next(self, N):
+            y = self.uniform.get_next(N)
             return -np.log(y)/self.lmbd
-    def getVar(self):
+    def get_variance(self):
         return 1/(self.lmbd**2)
-    def getMean(self):
+    def get_mean(self):
         return 1 / self.lmbd
-    def isPositive(self):
+    def is_positive(self):
         return True

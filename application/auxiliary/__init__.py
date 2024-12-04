@@ -1,13 +1,13 @@
-from .cdf_plot import plot
+from .generate_cdf_plot_route import generate_cdf_plot_route
 from .index import index
-from .intervals import intervals
-from .submit import submit
-from .intervals2 import intervals_2
+from .generate_histogram_route import generate_histogram_route
+from .submit_data import submit_data
+from .chi_squared_test_route import chi_squared_test_route
 
 def setup_routes(app):
     @app.route("/cdf-plot", methods=["POST"])
     def plot1():
-        return plot()
+        return generate_cdf_plot_route()
     
     @app.route("/", methods=["GET"])
     def index1():
@@ -15,13 +15,13 @@ def setup_routes(app):
     
     @app.route('/interval', methods=['POST'])
     def interval():
-        return intervals()
+        return generate_histogram_route()
     
     @app.route("/submit", methods=["POST"])
     def submit1():
-        return submit()
+        return submit_data()
     
     @app.route("/intervals2", methods=["POST"])
     def intervals3():
-        return intervals_2()
+        return chi_squared_test_route()
     

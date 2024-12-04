@@ -4,5 +4,5 @@ class Device:
     def __init__(self, N, randomGenerator):
         self.randomGenerator = randomGenerator
         self.amountOfSubdevices = N
-    def calculateWorkTime(self):
-        return np.sum(self.randomGenerator.getNext(self.amountOfSubdevices))
+    def calculate_work_time(self):
+        return np.sum(self.randomGenerator.get_next(self.amountOfSubdevices))

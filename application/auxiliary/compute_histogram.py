@@ -1,6 +1,6 @@
 import numpy as np
 
-def compute_histogram_with_intervals_manual(data, bin_edges, density=False, cumulative=False):
+def compute_histogram(data, bin_edges, density=False, cumulative=False):
     data = np.array(data)
     hist_values = np.zeros(len(bin_edges) - 1)
 

@@ -12,15 +12,15 @@ class ExponentialRandomGeneratorWithShift(RandomGenerator):
         self.uniform = UniformRandomGenerator()
         self.shift = shift
 
-    def getNext(self, N):
-        y = self.uniform.getNext(N)
+    def get_next(self, N):
+        y = self.uniform.get_next(N)
         return np.log(y)/(-self.lmbd) + self.shift
     
-    def getVar(self):
+    def get_variance(self):
         return 1/(self.lmbd**2)
     
-    def getMean(self):
+    def get_mean(self):
         return self.shift + 1 / self.lmbd
     
-    def isPositive(self):
+    def is_positive(self):
         return self.shift >= 0

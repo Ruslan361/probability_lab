@@ -2,54 +2,47 @@ import numpy as np
 import io
 import base64
 import matplotlib
-matplotlib.use('Agg')  # Устанавливаем Agg backend *ПЕРЕД* импортом pyplot
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import scipy.stats as st
-from .compute_histogram import compute_histogram_with_intervals_manual
 
+def generate_cdf_plot(work_times, mean, variance):  # Renamed disp to variance
+    """Generates a CDF plot (empirical and theoretical)."""
+    if not work_times:
+        raise ValueError("work_times cannot be empty.")
 
-def generate_cdf_plot(workTimes, mean, disp, bin_edges):
-    if np.size(workTimes) == 0:
-        raise ValueError("Empty or invalid workTimes.")
-    
-    sigma = np.sqrt(disp)
-    x_min = mean - 3 * sigma
-    x_max = mean + 3 * sigma
-    
+    stdev = np.sqrt(variance)
+    x_min = mean - 3 * stdev
+    x_max = mean + 3 * stdev
+
     x = np.linspace(x_min, x_max, 1000)
-    cdf = st.norm.cdf(x, mean, np.sqrt(disp))
-    
-    print(bin_edges)
-    print(workTimes)
-    
+    theoretical_cdf = st.norm.cdf(x, mean, stdev)
+
+    # Keep original logic but make it more concise
+    work_times_sorted = np.sort(np.concatenate(([x_min], work_times, [x_max])))
+    empirical_cdf = np.hstack((np.arange(len(work_times) + 1), 0)) / len(work_times)
+    empirical_cdf[-1] = 1
+
     plt.figure()
+    plt.plot(x, theoretical_cdf, label=r"$F_\eta(x)$") # Theoretical
+    plt.step(work_times_sorted, empirical_cdf, where='post',label=r"$\hat{F_\eta(x)}$")  # Empirical
 
-    plt.plot(x, cdf, label=r"$F_\eta(x)$")
+    work_times_sorted = np.sort(work_times)
+    n = len(work_times)
+    empirical_cdf = np.arange(1, n + 1) / n  # Empirical CDF values at jump points
 
-    print(type(workTimes))
-    print(len(workTimes))
-    workTimes_sorted = list(workTimes)
-    workTimes_sorted.insert(0, x_min)
-    workTimes_sorted.insert(-1, x_max)
-    workTimes_sorted = np.sort(workTimes_sorted)
-    
-    cdf_ = [i for i in range(len(workTimes) + 1)]
-    cdf_.append(0)
-    #print(100000)
-    cdf_ = np.array(cdf_)
-    cdf_ = cdf_ / len(workTimes)
-    cdf_[-1]  = 1
-    print(cdf_.shape)
-    print(workTimes_sorted.shape)
+    # Calculate theoretical CDF *only* at the data points (jump points)
+    theoretical_cdf_values = st.norm.cdf(work_times_sorted, mean, stdev)
 
-    # Рисуем график
-    plt.step(workTimes_sorted, cdf_, where='post')
-    print("draw")
-    Fn = st.norm.cdf(workTimes_sorted, mean, sigma)
-    D = np.max(np.abs(cdf_ - Fn))
+    # Calculate differences *only* at the jump points
+    differences = np.abs(empirical_cdf - theoretical_cdf_values)
+
+    # Also check the difference at the point *just before* each jump
+    differences_before_jump = np.abs(np.arange(n) / n - theoretical_cdf_values)
+    ks_statistic = np.max(np.concatenate([differences, differences_before_jump]))
     plt.xlabel('$t$')
-    #plt.ylabel('Относительная частота')
-    plt.title('График $\hat{F_\eta(x)}$ и $F_\eta(x)$ ' + f"D = {D}")
+    plt.ylabel('CDF') # Add y-axis label
+    plt.title(r'$\hat{F_\eta(x)}$ and $F_\eta(x)$ (D = ' + f"{ks_statistic:.4f})") # D-statistic in title
     plt.legend()
 
     img = io.BytesIO()
