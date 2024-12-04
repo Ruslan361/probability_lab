@@ -48,7 +48,7 @@ form.onsubmit = (event) => {
     });
 };
 
-function displayResults(data, id="results") {
+function displayResults(data, id="results", symbol="x") {
     const resultsContainer = document.getElementById(id);
     resultsContainer.innerHTML = ""; // Очистить старые результаты
 
@@ -65,7 +65,7 @@ function displayResults(data, id="results") {
     const headerRow = document.createElement("tr");
     data.forEach((_, index) => {
         const th = document.createElement("th");
-        th.innerHTML = `x<sub>${index + 1}</sub>`;
+        th.innerHTML = symbol + `<sub>${index + 1}</sub>`;
         headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
@@ -379,7 +379,7 @@ document.getElementById("interval-form-2").addEventListener("submit", function (
                 displayError(data.error);
             } else {
                 //z, pdf_real, pdf_select
-                displayResults(data.q, "res-table");
+                displayResults(data.q, "res-table", "q");
                 const resultsContainer = document.getElementById("res-text");
                 resultsContainer.innerHTML = "";
                 p = document.createElement("p");

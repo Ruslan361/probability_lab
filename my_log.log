@@ -1,0 +1,41 @@
+2024-12-04 16:31:51,489 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:31:51,505 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:36:55,636 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\app.py', reloading
+2024-12-04 16:36:59,062 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:36:59,073 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:37:06,275 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\app.py', reloading
+2024-12-04 16:37:10,181 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:37:10,192 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:37:11,243 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\app.py', reloading
+2024-12-04 16:37:15,149 - __main__ - INFO - 
+2024-12-04 16:37:15,182 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:37:15,193 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:37:20,330 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\app.py', reloading
+2024-12-04 16:37:24,062 - __main__ - INFO - Запуск сервера
+2024-12-04 16:37:24,098 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:37:24,115 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:37:45,509 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\auxiliary\\cdf_plot.py', reloading
+2024-12-04 16:37:48,990 - __main__ - INFO - Запуск сервера
+2024-12-04 16:37:49,024 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:37:49,030 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:37:53,123 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\auxiliary\\cdf_plot.py', reloading
+2024-12-04 16:37:57,130 - __main__ - INFO - Запуск сервера
+2024-12-04 16:37:57,166 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:37:57,182 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:39:18,443 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\auxiliary\\generate_cdf_plot.py', reloading
+2024-12-04 16:39:24,921 - __main__ - INFO - Запуск сервера
+2024-12-04 16:39:24,956 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:39:24,970 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:39:36,132 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\auxiliary\\generate_cdf_plot.py', reloading
+2024-12-04 16:39:40,352 - __main__ - INFO - Запуск сервера
+2024-12-04 16:39:40,519 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:39:40,543 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:40:34,555 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\auxiliary\\submit.py', reloading
+2024-12-04 16:40:38,830 - __main__ - INFO - Запуск сервера
+2024-12-04 16:40:38,889 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:40:38,914 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:40:39,975 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\auxiliary\\submit.py', reloading
+2024-12-04 16:40:44,924 - __main__ - INFO - Запуск сервера
+2024-12-04 16:40:44,977 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 16:40:45,009 - werkzeug - INFO -  * Debugger PIN: 953-697-537
+2024-12-04 16:41:07,317 - werkzeug - INFO -  * Detected change in 'c:\\git\\12\\probability_lab\\application\\auxiliary\\submit.py', reloading

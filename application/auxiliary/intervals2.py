@@ -21,25 +21,34 @@ def calculateQ(intervals, mean, disp):
 def intervals_2():
     try:
         # Получаем данные
-        intervals = request.form.get("intervals")
+        data = request.get_json()
+        num_intervals = data.get("intervals")
         # intervals = sorted(intervals)
-        work_times = request.form.get("workTimes")
-        mean = float(request.form.get("mean"))
-        disp = float(request.form.get("disp"))
-        a = float(request.form.get("a"))
-        
+        work_times = data.get("workTimes")
+        mean = float(data.get("mean"))
+        disp = float(data.get("disp"))
+        a = float(data.get("a"))
+        sigma = np.sqrt(disp)
+        #x_min, x_max = mean - 3*sigma, mean + 3*sigma
 
+        #ppf = np.linspace(0, 1, )
         # Преобразуем строку JSON в объекты Python
-        intervals = np.array(eval(intervals))
-        intervals = np.hstack([-np.inf, intervals, np.inf])
-        work_times = np.array(eval(work_times))
+        # if num_intervals == 1:
+        #     ppf = np.array([0.5])
+        # else:
+        ppf = np.linspace(0, 1, num_intervals + 2)
+        #ppf = np.hstack([-np.inf, ppf, np.inf])
+        #intervals = np.array([st.norm.ppf(el, mean, sigma) for el in ppf])
+        intervals = st.norm.ppf(ppf, mean, sigma)
+        #intervals = np.hstack([-np.inf, intervals, np.inf])
+        print(intervals)
+        work_times = np.array(work_times)
 
-        if len(intervals) < 1:
-            raise ValueError("Интервалы должны содержать хотя бы одно значение.")
 
         hist_values, bin_centers = compute_histogram_with_intervals_manual(work_times, intervals)
         k = len(bin_centers)
         q = calculateQ(intervals, mean, disp)
+        print(q)
         n = np.sum(hist_values)
         R0 = np.sum((hist_values - n * q) ** 2 / n / q)
         F = 1 - st.chi2.cdf(R0, k)

@@ -61,8 +61,8 @@
 
     </div>
     <form id="interval-form">
-        <label for="intervals">Границы интервалов (через запятую, например: 0, 1, 2, 3):</label>
-        <input type="text" id="intervals" name="intervals" required placeholder="0, 1, 2, 3, ...">
+        <label for="intervals">Количество интервалов:</label>
+        <input type="number" id="intervals" value="2" step="1" name="intervals" required>
         <br><br>
         <button type="submit">Отправить</button>
     </form>
@@ -75,7 +75,7 @@
 
     <form id="interval-form-2">
         <label for="intervals2">Границы интервалов (через запятую, например: 0, 1, 2, 3):</label>
-        <input type="text" id="intervals2" name="intervals" required placeholder="0, 1, 2, 3, ...">
+        <input type="number" value="2" step="1" id="intervals2" name="intervals" required">
         <td><label for="a">Уровень значимости:</label></td>
         <input type="number" name="a" id="a" value="0.05" step="any" required>
         <br><br>
@@ -90,6 +90,10 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+    <script type="module" src="{{ url_for('static', filename='js/ui.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/api.js') }}"></script>
+
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

@@ -3,38 +3,31 @@ import numpy as np
 import io
 import base64
 import matplotlib
-matplotlib.use('Agg')  # Устанавливаем Agg backend *ПЕРЕД* импортом pyplot
+matplotlib.use('Agg')  
 import matplotlib.pyplot as plt
 import scipy.stats as st
 from .compute_histogram import compute_histogram_with_intervals_manual
 
-#@app.route('/interval', methods=['POST'])
+
 def intervals():
     try:
         # Получаем данные
-        intervals = request.form.get("intervals")
-        work_times = request.form.get("workTimes")
-        mean = float(request.form.get("mean"))
-        disp = float(request.form.get("disp"))
-        print(disp)
+        data = request.get_json()
 
-        # Преобразуем строку JSON в объекты Python
-        intervals = np.array(eval(intervals))
-        work_times = np.array(eval(work_times))
+        num_intervals = data.get("intervals")
+        work_times = data.get("workTimes")
+        mean = float(data.get("mean"))
+        disp = float(data.get("disp"))
+        sigma = np.sqrt(disp)
+        x_min, x_max = mean-3*sigma, mean+3*sigma
+        intervals = np.linspace(x_min, x_max, num_intervals + 1)
 
-        if len(intervals) < 2:
-            raise ValueError("Интервалы должны содержать хотя бы два значения.")
 
         hist_values, bin_centers = compute_histogram_with_intervals_manual(work_times, intervals, density=True)
         pdf_real = st.norm.pdf(bin_centers, mean, np.sqrt(disp))
-        #print(pdf_real)
-        max_sub = np.max(np.abs(pdf_real - hist_values))
-        # Вычисление гистограммы
-        #hist_values, _ = np.histogram(work_times, bins=intervals)
-        #bin_centers = [(intervals[i] + intervals[i + 1]) / 2 for i in range(len(intervals) - 1)]
-        plt.figure()
-        #plt.hist(workTimes, density=density, cumulative=cumulative, bins=bins, alpha=0.7, label='Время работы')
 
+        max_sub = np.max(np.abs(pdf_real - hist_values))
+        plt.figure()
         plt.xlabel('$t$')
         #plt.ylabel('Относительная частота')
         plt.title('Гистограмма относительных частот')

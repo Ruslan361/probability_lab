@@ -9,49 +9,44 @@ from .compute_histogram import compute_histogram_with_intervals_manual
 
 
 def generate_cdf_plot(workTimes, mean, disp, bin_edges):
-    """
-    Генерирует гистограмму относительных частот для списка workTimes и возвращает ее как base64 закодированное SVG изображение.
-
-    Args:
-        workTimes: массив числовых значений.
-
-    Returns:
-        Строку base64, представляющую SVG изображение гистограммы, или None, если workTimes пуст или невалиден.
-    """
-    workTimes = np.array(workTimes)
     if np.size(workTimes) == 0:
         raise ValueError("Empty or invalid workTimes.")
-    x_min = np.min(workTimes)
-    x_max = np.max(workTimes)
+    
+    sigma = np.sqrt(disp)
+    x_min = mean - 3 * sigma
+    x_max = mean + 3 * sigma
     
     x = np.linspace(x_min, x_max, 1000)
     cdf = st.norm.cdf(x, mean, np.sqrt(disp))
-    #
-    if (bin_edges == 'auto'):
-        count = int((np.log(workTimes.shape[0]))) + 1
-        #count = max(count, 1)
-        if workTimes.shape[0] > 100:
-            count = 100
-        count = max(count, 1)
-        #count = 100
-        #
-        bin_edges = np.linspace(x_min, x_max, count + 1)
-        
-    #
+    
     print(bin_edges)
     print(workTimes)
-    hist_values, bin_centers = compute_histogram_with_intervals_manual(workTimes, bin_edges, density=True, cumulative=True)
-    print(hist_values, bin_centers)
-    #
+    
     plt.figure()
-    #plt.hist(workTimes, density=density, cumulative=cumulative, bins=bins, alpha=0.7, label='Время работы')
+
     plt.plot(x, cdf, label=r"$F_\eta(x)$")
-    if (len(bin_edges) < 10):
-        plt.plot(bin_centers, hist_values, "-o", label=r"$\hat{F_\eta(x)}$")
-    else:
-        plt.plot(bin_centers, hist_values, label=r"$\hat{F_\eta(x)}$")
-    Fn = st.norm.cdf(bin_centers, mean, np.sqrt(disp))
-    D = np.max(np.abs(hist_values - Fn))
+
+    print(type(workTimes))
+    print(len(workTimes))
+    workTimes_sorted = list(workTimes)
+    workTimes_sorted.insert(0, x_min)
+    workTimes_sorted.insert(-1, x_max)
+    workTimes_sorted = np.sort(workTimes_sorted)
+    
+    cdf_ = [i for i in range(len(workTimes) + 1)]
+    cdf_.append(0)
+    #print(100000)
+    cdf_ = np.array(cdf_)
+    cdf_ = cdf_ / len(workTimes)
+    cdf_[-1]  = 1
+    print(cdf_.shape)
+    print(workTimes_sorted.shape)
+
+    # Рисуем график
+    plt.step(workTimes_sorted, cdf_, where='post')
+    print("draw")
+    Fn = st.norm.cdf(workTimes_sorted, mean, sigma)
+    D = np.max(np.abs(cdf_ - Fn))
     plt.xlabel('$t$')
     #plt.ylabel('Относительная частота')
     plt.title('График $\hat{F_\eta(x)}$ и $F_\eta(x)$ ' + f"D = {D}")

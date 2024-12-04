@@ -2,29 +2,33 @@ from flask import request
 import numpy as np
 
 def process_form():
-    q = None
-    r = None
-    n = None
-    num_trials = None
-    distributing_function = None
-    table = None
-    error_message = None
+    # q = None
+    # r = None
+    # n = None
+    # num_trials = None
+    # distributing_function = None
+    #table = None
+    #error_message = None
     if request.method == "POST":
         try:
-            q = float(request.form.get("q"))
-            r = float(request.form.get("r"))
-            n = int(request.form.get("n"))
-            num_trials = int(request.form.get("num_trials"))
-            distributing_function = request.form.get("distributing_function")
+            #translation_table = dict.fromkeys(map(ord, '"'), None)
+            data = request.get_json()
+            print(request.form)
+            q = float(data.get("q"))
+            r = float(data.get("r"))
+            n = int(data.get("n"))
+            num_trials = int(data.get("num_trials"))
+            distributing_function = data.get("distributing_function")
+            print(q ,r, n, num_trials, distributing_function)
             
-            #
-            results = []
-            for _ in range(num_trials):
-                trial_data = []
-                for _ in range(n):
-                    measurement = np.random.normal(loc=q, scale=np.sqrt(r))
-                    trial_data.append(measurement)
-                results.append(trial_data)
+            # #
+            # results = []
+            # for _ in range(num_trials):
+            #     trial_data = []
+            #     for _ in range(n):
+            #         measurement = np.random.normal(loc=q, scale=np.sqrt(r))
+            #         trial_data.append(measurement)
+            #     results.append(trial_data)
 
 
         except ValueError:
