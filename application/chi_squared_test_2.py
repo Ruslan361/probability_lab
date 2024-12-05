@@ -16,7 +16,7 @@ class TestChiSquaredAlpha(unittest.TestCase):
         type_1_errors = 0
         for _ in range(num_trials):
             # Generate data from the null distribution (normal in this case)
-            work_times = np.random.normal(loc=mean, scale=np.sqrt(variance), size=100)
+            work_times = np.random.normal(loc=mean, scale=np.sqrt(variance), size=1000)
 
             _, _, p_value, _ = chi_squared_test(num_intervals, work_times, mean, variance, alpha)
 
@@ -28,6 +28,9 @@ class TestChiSquaredAlpha(unittest.TestCase):
 
 
         # Use assertAlmostEqual for comparing floating-point numbers with a tolerance
+        print("empirical_error_rate", empirical_error_rate)
+        print("alpha", alpha)
+        print("num_trials", num_trials)
         self.assertAlmostEqual(empirical_error_rate, alpha, delta=0.02)  # Allow a small delta for randomness
 
 

@@ -18,22 +18,24 @@ class TestChiSquared(unittest.TestCase):
         )
 
         # Assertions based on alpha = 0.05
+        print(message)
         if p_value <= alpha:
-            self.assertTrue("отклонена" in message.lower())  # Check if the message indicates rejection
+            self.assertTrue("отвергается" in message.lower())  # Check if the message indicates rejection
         else:
-            self.assertTrue("не отклонена" in message.lower())  # Check if the message indicates non-rejection
+            self.assertTrue("не отвергается" in message.lower())  # Check if the message indicates non-rejection
 
         # Repeat the test with a different alpha (e.g., 0.2)
         alpha = 0.2
         expected_frequencies, chi2_statistic, p_value, message = chi_squared_test(
             num_intervals, work_times, mean, variance, alpha
         )
-
-
+        #q, R0, F, message
+        print(message)
+        #F <= alpha
         if p_value <= alpha:
-            self.assertTrue("отклонена" in message.lower())
+            self.assertTrue("отвергается" in message.lower())
         else:
-            self.assertTrue("не отклонена" in message.lower())
+            self.assertTrue("не отвергается" in message.lower())
 
 
 
