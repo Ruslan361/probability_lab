@@ -151,3 +151,4 @@ python app.py
 * Сделано. Нарисовать график функции распределения. Теоретическая функция распределения - нормальное распределение. По центральной предельной теореме 
 ### TODO
 * показать результаты [collab](https://colab.research.google.com/drive/1mHVVZPqTE-Is2KPKpT6obe4R3_AN3D17?usp=sharing)
+* Таблица испытаний [xls](https://1drv.ms/x/s!AppSOj-RUmfggrNqtdfSaBiW_ssf5Q?e=rpuPmK)
